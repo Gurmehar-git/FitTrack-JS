@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { loadCalories, saveCalories, loadGoals, saveGoals } from '../storage'
 import { makeId, clamp } from '../utils'
-
 export default function Calories() {
   const [meals,    setMeals]    = useState([])
   const [goals,    setGoals]    = useState({ calGoal: 2000, protGoal: 150 })
@@ -147,5 +146,6 @@ export default function Calories() {
         ))}
       </div>
     </div>
+    //calories wala done
   )
 }
