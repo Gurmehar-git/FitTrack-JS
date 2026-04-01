@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitTrack</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="dark">
+
+  <div class="app">
+
+    <div class="sidebar" id="sidebar">
+      <div class="logo">
+        FitTrack
+        <span>Workout and Calorie Tracker</span>
+      </div>
+      <div class="nav-item active" data-tab="dashboard" onclick="showTab('dashboard')">Dashboard</div>
+      <div class="nav-item" data-tab="workouts" onclick="showTab('workouts')">Workouts</div>
+      <div class="nav-item" data-tab="calories" onclick="showTab('calories')">Calories</div>
+      <div class="sidebar-bottom">
+        <button class="theme-btn" id="themeBtn">Light Mode</button>
+      </div>
+    </div>
+
+    <div class="top-bar">
+      <button class="hamburger" id="hamburger">☰</button>
+      <span style="font-weight:700; color:#3b82f6;">FitTrack</span>
+      <button class="hamburger" id="themeBtn2" onclick="document.getElementById('themeBtn').click()">☀</button>
+    </div>
+
+    <main class="main-content">
+
+
+      <!-- DASHBOARD TAB -->
+      <div class="tab active" id="tab-dashboard">
+
+        <div class="page-title">Dashboard</div>
+        <div class="page-subtitle" id="dashDate"></div>
+        <div class="streak-badge" id="streakBadge" style="display:none"></div>
+
+        <div class="stat-grid">
+          <div class="stat-box">
+            <div class="stat-label">Workouts</div>
+            <div class="stat-number" id="dashWorkouts">0</div>
+            <div class="stat-sub">today</div>
+          </div>
+          <div class="stat-box orange">
+            <div class="stat-label">Total Sets</div>
+            <div class="stat-number" id="dashSets">0</div>
+            <div class="stat-sub">performed</div>
+          </div>
+          <div class="stat-box green">
+            <div class="stat-label">Calories Eaten</div>
+            <div class="stat-number" id="dashCal">0</div>
+            <div class="stat-sub">kcal</div>
+          </div>
+          <div class="stat-box red">
+            <div class="stat-label">Calories Burnt</div>
+            <div class="stat-number" id="dashBurnt">0</div>
+            <div class="stat-sub">from workouts</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-top">
+            <span class="card-title">Goal Progress</span>
+          </div>
+          <div class="goal-row">
+            <label>Calories</label>
+            <div class="progress-bar-bg" style="flex:1">
+              <div class="progress-bar-fill" id="dashCalBar" style="width:0%"></div>
+            </div>
+            <span class="goal-pct" id="dashCalPct">0%</span>
+          </div>
+          <div class="goal-row">
+            <label>Protein</label>
+            <div class="progress-bar-bg" style="flex:1">
+              <div class="progress-bar-fill green" id="dashProtBar" style="width:0%"></div>
+            </div>
+            <span class="goal-pct" id="dashProtPct">0%</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-top">
+            <span class="card-title">This Week</span>
+            <select id="chartSelect" class="btn-small" style="cursor:pointer; width:auto;">
+              <option value="calories">Calories</option>
+              <option value="workouts">Workouts</option>
+            </select>
+          </div>
+          <div class="week-chart" id="weekChart"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-top">
+            <span class="card-title">Suggestions</span>
+          </div>
+          <div id="tipsList"></div>
+        </div>
+
+      </div>
+      <!-- END DASHBOARD -->
+
+
+      <!-- WORKOUTS TAB -->
+      <div class="tab" id="tab-workouts">
+
+        <div class="page-title">Workouts</div>
+        <div class="page-subtitle">Log exercises — calories burnt fetched from API</div>
+
+        <div class="card">
+          <div class="card-top">
+            <span class="card-title">Quick Templates</span>
+          </div>
+          <div class="tmpl-row">
+            <button class="btn-small" onclick="loadTemplate('push')">Push Day</button>
+            <button class="btn-small" onclick="loadTemplate('pull')">Pull Day</button>
+            <button class="btn-small" onclick="loadTemplate('legs')">Leg Day</button>
+            <button class="btn-small" onclick="loadTemplate('cardio')">Cardio</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-top">
+            <span class="card-title" id="formTitle">Log Exercise</span>
+          </div>
+
+          <form id="workoutForm">
+
+            <div class="form-group" style="position:relative; margin-bottom:12px; max-width:320px;">
+              <label>Exercise Name</label>
+              <input type="text" id="exName" placeholder="e.g. Bench Press" required autocomplete="off" />
+              <div class="ac-dropdown" id="acDropdown"></div>
+            </div>
+
+            <div class="form-row" style="margin-bottom:14px;">
+              <div class="form-group">
+                <label>Category</label>
+                <select id="exCat">
+                  <option value="push">Push</option>
+                  <option value="pull">Pull</option>
+                  <option value="legs">Legs</option>
+                  <option value="cardio">Cardio</option>
+                  <option value="core">Core</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Duration (mins)</label>
+                <input type="number" id="exDuration" value="30" min="1" max="180" />
+              </div>
+              <div class="form-group">
+                <label>Notes</label>
+                <input type="text" id="exNotes" placeholder="optional" />
+              </div>
+            </div>
+
+            <div class="sets-box">
+              <div class="sets-top">
+                <span>Sets</span>
+                <button type="button" class="btn-small" id="addSetBtn">+ Add Set</button>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Weight (kg)</th>
+                    <th>Reps</th>
+                    <th>Volume</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="setsBody"></tbody>
+              </table>
+            </div>
+
+            <div style="display:flex; gap:8px; margin-top:12px;">
+              <button type="submit" class="btn" id="workoutSubmitBtn">Log Exercise</button>
+              <button type="button" class="btn-gray" id="cancelEditBtn" style="display:none" onclick="resetWorkoutForm()">Cancel</button>
+            </div>
+
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="filter-row">
+            <input type="text" id="workoutSearch" placeholder="Search exercises..." style="max-width:180px;" />
+            <div class="pills">
+              <button class="pill active" data-cat="all"    onclick="setFilterCat('all')">All</button>
+              <button class="pill"         data-cat="push"   onclick="setFilterCat('push')">Push</button>
+              <button class="pill"         data-cat="pull"   onclick="setFilterCat('pull')">Pull</button>
+              <button class="pill"         data-cat="legs"   onclick="setFilterCat('legs')">Legs</button>
+              <button class="pill"         data-cat="cardio" onclick="setFilterCat('cardio')">Cardio</button>
+              <button class="pill"         data-cat="core"   onclick="setFilterCat('core')">Core</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-top">
+            <span class="card-title">Today's Exercises</span>
+            <span class="count-label" id="workoutCount">0 logged</span>
+          </div>
+          <div id="workoutList">
+            <div class="empty-msg">No exercises yet. Log one above!</div>
+          </div>
+        </div>
+
+      </div>
+      <!-- END WORKOUTS -->
+
+
+      <!-- CALORIES TAB -->
+      <div class="tab" id="tab-calories">
+
+        <div class="page-title">Calories</div>
+        <div class="page-subtitle">Track your daily food and protein intake</div>
+
+        <div class="cal-totals">
+          <div class="cal-box">
+            <div class="cal-number" id="totalCal">0</div>
+            <div class="cal-label">Calories</div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" id="calProgressBar" style="width:0%"></div>
+            </div>
+            <div style="font-size:11px; color:#555555; margin-top:3px;" id="calPctText">0% of 2000</div>
+          </div>
+          <div class="cal-box">
+            <div class="cal-number green" id="totalProt">0g</div>
+            <div class="cal-label">Protein</div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill green" id="protProgressBar" style="width:0%"></div>
+            </div>
+            <div style="font-size:11px; color:#555555; margin-top:3px;" id="protPctText">0% of 150g</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-top">
+            <span class="card-title">Add Meal</span>
+          </div>
+          <form id="calForm">
+            <div class="form-row" style="grid-template-columns:2fr 1fr 1fr;">
+              <div class="form-group">
+                <label>Food Name</label>
+                <input type="text" id="mealName" placeholder="e.g. Chicken Breast" required />
+              </div>
+              <div class="form-group">
+                <label>Calories</label>
+                <input type="number" id="mealCal" placeholder="350" min="0" required />
+              </div>
+              <div class="form-group">
+                <label>Protein (g)</label>
+                <input type="number" id="mealProt" placeholder="30" min="0" />
+              </div>
+            </div>
+            <button type="submit" class="btn">Add Meal</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="card-top">
+            <span class="card-title">Set Goals</span>
+          </div>
+          <form id="goalsForm">
+            <div class="form-row" style="grid-template-columns:1fr 1fr;">
+              <div class="form-group">
+                <label>Calorie Goal</label>
+                <input type="number" id="goalCalInput" />
+              </div>
+              <div class="form-group">
+                <label>Protein Goal (g)</label>
+                <input type="number" id="goalProtInput" />
+              </div>
+            </div>
+            <button type="submit" class="btn">Save Goals</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="card-top">
+            <span class="card-title">Today's Meals</span>
+            <span class="count-label" id="mealCount">0 items</span>
+          </div>
+          <div id="mealList">
+            <div class="empty-msg">No meals logged today.</div>
+          </div>
+        </div>
+
+      </div>
+      <!-- END CALORIES -->
+
+    </main>
+  </div>
+
+  <script src="storage.js"></script>
+  <script src="utils.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>

@@ -45,5 +45,8 @@ function loadTheme() {
 function saveTheme(t) {
   localStorage.setItem('theme', t)
 }
+<<<<<<< HEAD
 
 export { getToday, loadWorkouts, saveWorkouts, loadAllWorkouts, loadCalories, saveCalories, loadGoals, saveGoals, loadTheme, saveTheme }
+=======
+>>>>>>> f4f805c (Final code before 2nd milestone)
