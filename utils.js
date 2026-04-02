@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-// utils.js
 
-=======
->>>>>>> f4f805c (Final code before 2nd milestone)
 function makeId() {
   return Math.random().toString(36).slice(2, 9)
 }
@@ -25,9 +21,6 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
-<<<<<<< HEAD
-// exercise library for autocomplete
-=======
 function getEl(id) {
   return document.getElementById(id)
 }
@@ -40,7 +33,6 @@ function showToast(msg) {
   setTimeout(() => toast.remove(), 2500)
 }
 
->>>>>>> f4f805c (Final code before 2nd milestone)
 const EXERCISES = [
   { name: 'Bench Press',             cat: 'push' },
   { name: 'Incline Bench Press',     cat: 'push' },
@@ -105,20 +97,6 @@ const TEMPLATES = {
     { name: 'Hammer Curls',     cat: 'pull', sets: [{w:14,r:12},{w:16,r:12},{w:18,r:10}] },
   ],
   legs: [
-<<<<<<< HEAD
-    { name: 'Squat',      cat: 'legs', sets: [{w:80,r:8},{w:90,r:8},{w:100,r:6},{w:100,r:6}] },
-    { name: 'Leg Press',  cat: 'legs', sets: [{w:120,r:12},{w:140,r:12},{w:160,r:10}] },
-    { name: 'Leg Curl',   cat: 'legs', sets: [{w:40,r:12},{w:45,r:12},{w:50,r:10}] },
-    { name: 'Calf Raises',cat: 'legs', sets: [{w:40,r:20},{w:45,r:20},{w:50,r:20}] },
-  ],
-  cardio: [
-    { name: 'Treadmill Run', cat: 'cardio', sets: [{w:0,r:1}], notes: '30 min' },
-    { name: 'Jump Rope',     cat: 'cardio', sets: [{w:0,r:100},{w:0,r:100},{w:0,r:100}] },
-  ],
-}
-
-export { makeId, getLastNDays, clamp, capitalize, EXERCISES, TEMPLATES }
-=======
     { name: 'Squat',       cat: 'legs', sets: [{w:80,r:8},{w:90,r:8},{w:100,r:6},{w:100,r:6}] },
     { name: 'Leg Press',   cat: 'legs', sets: [{w:120,r:12},{w:140,r:12},{w:160,r:10}] },
     { name: 'Leg Curl',    cat: 'legs', sets: [{w:40,r:12},{w:45,r:12},{w:50,r:10}] },
@@ -129,4 +107,3 @@ export { makeId, getLastNDays, clamp, capitalize, EXERCISES, TEMPLATES }
     { name: 'Jump Rope',     cat: 'cardio', sets: [{w:0,r:100},{w:0,r:100},{w:0,r:100}] },
   ],
 }
->>>>>>> f4f805c (Final code before 2nd milestone)
