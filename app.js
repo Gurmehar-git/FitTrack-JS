@@ -1,4 +1,4 @@
-const API_KEY = 'YOUR_API_NINJAS_KEY'
+const API_KEY = '6zl9ZH2qp05IMouTgJa6zrBe0Y0Smb1MyasOkCaZ'
 
 let currentTab = 'dashboard'
 let editingId = null
@@ -152,15 +152,35 @@ async function submitWorkout(e) {
 
   try {
     let url = 'https://api.api-ninjas.com/v1/caloriesburned?activity=' + encodeURIComponent(name) + '&duration=' + duration
+    console.log('Fetching from:', url)
     let response = await fetch(url, {
       headers: { 'X-Api-Key': API_KEY }
     })
-    let data = await response.json()
-    if (data && data.length > 0) {
-      calsBurnt = Math.round(data[0].total_calories)
+    console.log('Response status:', response.status)
+    
+    if (!response.ok) {
+      console.log('API returned error status:', response.status)
+    } else {
+      let data = await response.json()
+      console.log('Full API Response:', JSON.stringify(data))
+      
+      if (data && Array.isArray(data) && data.length > 0) {
+        console.log('Data is array, first item:', data[0])
+        calsBurnt = Math.round(data[0].total_calories)
+        console.log('Calories burnt from API:', calsBurnt)
+      } else {
+        console.log('API returned empty array, using fallback calculation')
+        // Fallback: estimate calories based on volume (weight × reps)
+        let totalVolume = setsData.reduce(function (a, s) { return a + (s.weight * s.reps) }, 0)
+        calsBurnt = Math.round(totalVolume * 0.5)
+        console.log('Fallback calories calculated from volume:', calsBurnt)
+      }
     }
   } catch (err) {
-    console.log('API call failed:', err)
+    console.error('API call failed:', err.message)
+    // Use fallback if fetch fails entirely
+    let totalVolume = setsData.reduce(function (a, s) { return a + (s.weight * s.reps) }, 0)
+    calsBurnt = Math.round(totalVolume * 0.5)
   }
 
   let existing = loadWorkouts()
