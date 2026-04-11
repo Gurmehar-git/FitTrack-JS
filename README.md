@@ -8,7 +8,6 @@ FitTrack is a modern fitness tracking web application that helps users monitor w
 📈 Monitor progress over time
 🔥 Clean and responsive UI
 ⚡ Fast performance with modern web stack
-🌐 Deployed and accessible online
 
 🛠️ Tech Stack
 Frontend: HTML, CSS, JavaScript
