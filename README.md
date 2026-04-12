@@ -12,3 +12,7 @@ FitTrack is a modern fitness tracking web application that helps users monitor w
 🛠️ Tech Stack
 Frontend: HTML, CSS, JavaScript
 APIs: Fetch-based data handling
+
+
+Deployed at vercel-
+fittrack-js.vercel.app
