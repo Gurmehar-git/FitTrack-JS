@@ -14,5 +14,4 @@ Frontend: HTML, CSS, JavaScript
 APIs: Fetch-based data handling
 
 
-Deployed at vercel-
-fittrack-js.vercel.app
+
